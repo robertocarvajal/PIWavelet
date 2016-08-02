@@ -845,8 +845,8 @@ PARAMETER:
     # sub-plots the significance levels are either included as dotted lines or as
     # filled contour lines.
     #pylab.close('all')
-    fontsize = 'medium'
-    params = {'text.fontsize': fontsize,
+    fontsize = 15
+    params = {'font.size': fontsize,
               'xtick.labelsize': fontsize,
               'ytick.labelsize': fontsize,
               'axes.titlesize': fontsize,
@@ -1110,27 +1110,27 @@ RETURN:
             levels=None
 
         if 'labels' in kwargs.keys():
-            levels = kwargs['labels']
+            labels = kwargs['labels']
         else:
             labels=None
 
         if 'pArrow' in kwargs.keys():
-            levels = kwargs['pArrow']
+            pArrow = kwargs['pArrow']
         else:
             pArrow=None
 
         if 'pSigma' in kwargs.keys():
-            levels = kwargs['pSigma']
+            pSigma = kwargs['pSigma']
         else:
             pSigma=True
 
         if 'gray' in kwargs.keys():
-            levels = kwargs['gray']
+            gray = kwargs['gray']
         else:
             gray = None
 
         if 'nameSave' in kwargs.keys():
-            levels = kwargs['nameSave']
+            nameSave = kwargs['nameSave']
         else:
             nameSave = None
 
@@ -1156,12 +1156,12 @@ RETURN:
             labelsize = 18
 
 
-        fontsize = 'medium'
+        fontsize = 25
         params = {'font.family': 'serif',
                           'font.sans-serif': ['Helvetica'],
                           'font.size': 25,
                           'font.stretch': 'ultra-condensed',
-                          'text.fontsize': fontsize,
+                          #'text.fontsize': fontsize,
                           'xtick.labelsize': labelsize,
                           'ytick.labelsize': labelsize,
                           'axes.titlesize': fontsize,
@@ -1182,6 +1182,9 @@ RETURN:
         N = len(t)
         dt = t[1] - t[0]
         period = 1. / freqs
+        period = numpy.linspace(5, 60, 74)
+        print period
+        print period.size
         power = wc
 #        sig95 = numpy.ones([1, N]) * signif[:, None]
 #        print signif.shape
@@ -1279,17 +1282,16 @@ RETURN:
             else:
                 pylab.show()
         else:
-
             ax.fill(numpy.concatenate([t[:1]-dt, t, t[-1:]+dt, t[-1:]+dt, t[:1]-dt,
                 t[:1]-dt]), numpy.log2(numpy.concatenate([[1e-9], coi, [1e-9],
                 period[-1:], period[-1:], [1e-9]])), 'k', alpha=0.3, hatch='x')
             Yticks = 2 ** numpy.arange(numpy.ceil(numpy.log2(period.min())),
-                numpy.ceil(numpy.log2(period.max())))
+                numpy.ceil(period.max()))
             ax.set_yticks(numpy.log2(Yticks))
             ax.set_yticklabels(Yticks)
             ax.set_xlim([t.min(), t.max()])
             ax.set_ylim(numpy.log2([period.min(), min([coi.max(), period.max()])]))
-            ax.invert_yaxis()
+            #ax.invert_yaxis()
             cbar = fig.colorbar(cf, ticks=Levels, extend=extend)
             cbar.ax.set_yticklabels(labels)
 
@@ -1299,7 +1301,7 @@ RETURN:
                 pylab.savefig(nameSave)
             else:
                 pylab.show()
-
+            pylab.close()
 
         result.append(ax)
 
@@ -1454,12 +1456,12 @@ RETURN
             scale = 'log2'
 
 
-        fontsize = 'medium'
+        fontsize = 18
         params = {'font.family': 'serif',
                           'font.sans-serif': ['Helvetica'],
                           'font.size': 18,
                           'font.stretch': 'ultra-condensed',
-                          'text.fontsize': fontsize,
+                          #'text.fontsize': fontsize,
                           'xtick.labelsize': fontsize,
                           'ytick.labelsize': fontsize,
                           'axes.titlesize': fontsize,
